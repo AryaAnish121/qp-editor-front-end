@@ -1,0 +1,93 @@
+.question {
+  width: 100%;
+  border: 1.5px solid #162038;
+  border-radius: 12.5px;
+  padding: 20px 25px;
+  margin-bottom: 25px;
+  background: white;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.225);
+}
+
+.head {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.question-title {
+  font-size: 17px;
+  outline: none;
+  border: none;
+  padding: 8.5px 17.5px;
+  padding-right: 0;
+  background: rgb(243, 243, 245);
+  border-bottom: 1.5px solid rgb(172, 172, 172);
+  border-radius: 4px 4px 0 0;
+}
+
+.question-options {
+  width:  315px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mcq-choice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  margin-bottom: 22.5px;
+}
+
+.mcq-questions {
+  margin-top: 22.5px;
+}
+
+.mcq-questions li p input {
+  outline: none;
+  border: none;
+  padding: 5px 10px;
+  border-bottom: 1.5px solid rgb(172, 172, 172);
+  font-size: 15px;
+}
+
+.mcq-questions button {
+  cursor: pointer;
+}
+
+.delete-button {
+  outline: none;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-button svg {
+  width: 13px;
+  height: 13px;
+}
+
+.question-option {
+  padding: 5px 10px;
+  width: 125px;
+  border-radius: 5px;
+  border: 1.75px solid rgb(203, 203, 207);
+  background: rgb(240, 240, 243);
+}
+
+.question-options button {
+  cursor: pointer;
+  width: auto;
+  height: auto;
+  padding: 7px 10px;
+}
+
+.question-options button svg {
+  width: 10px;
+  height: 10px;
+}

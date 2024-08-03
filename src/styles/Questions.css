@@ -1,0 +1,29 @@
+.outer {
+  width: 100%;
+  height: 100%;
+  background: #fff3dd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px 0;
+}
+
+.main {
+  width: 47.5%;
+}
+
+.add-question {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-question .question-option {
+  padding: 8.5px;
+  background: rgb(250, 250, 250);
+  cursor: pointer;
+}
+
+.add-question .question-option:nth-child(1){
+  margin-right: 35px;
+}
