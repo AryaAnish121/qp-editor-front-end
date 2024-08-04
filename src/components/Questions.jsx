@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Question from "./Question";
 import "../styles/Questions.css";
+import fileDownload from "js-file-download";
+import axios from "axios";
 
 const Questions = () => {
   const [examDetails, setExamDetails] = useState({
@@ -19,7 +21,7 @@ const Questions = () => {
       options: [],
     },
     {
-      type: "mcq/fitb",
+      type: "mcq/fitb/mqna/mtf",
       title: "why is hamaguchi considered a living god?",
       marks: 10,
       options: [
@@ -47,7 +49,7 @@ const Questions = () => {
       return [
         ...prev,
         {
-          type: "mcq/fitb",
+          type: "mcq/fitb/mqna/mtf",
           title: "New Question",
           marks: 10,
           options: ["option a", "option b", "option c", "option d"],
@@ -65,6 +67,26 @@ const Questions = () => {
             options: question.options.map((option, index) => {
               if (index === oid) {
                 return newValue;
+              }
+              return option;
+            }),
+          };
+        }
+        return question;
+      });
+    });
+  };
+
+  const handleHotKey = (qid, oid, hotKey) => {
+    setQuestions((prev) => {
+      return prev.map((question, index) => {
+        if (index === qid) {
+          return {
+            ...question,
+            options: question.options.map((option, index) => {
+              if (index === oid) {
+                if (hotKey === "ctrlSpace") return `${option}_______`;
+                else if (hotKey === "ctrlL") return `${option}<MTFSpace>`;
               }
               return option;
             }),
@@ -117,20 +139,17 @@ const Questions = () => {
 
   const generateDocs = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_SERVER}/generate`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const res = await axios.post(
+        `${process.env.REACT_APP_SERVER}/generate`,
+        {
           data: questions,
           ...examDetails,
-        }),
-      });
-      const res = await response.text();
-      console.log(res);
+        },
+        { responseType: "blob" }
+      );
+      fileDownload(res.data, `${examDetails.subject}.docx`);
     } catch (error) {
-      console.log(error);
+      alert("FAILED: " + error.message);
     }
   };
 
@@ -174,6 +193,7 @@ const Questions = () => {
               handleNewOption={handleNewOption}
               handleDeleteOption={handleDeleteOption}
               handleDeleteQuestion={handleDeleteQuestion}
+              handleHotKey={handleHotKey}
             />
           ))}
         </div>

@@ -5,7 +5,6 @@ import Cross from "../icons/Cross";
 // TODO: make the app mobile responsive
 // TODO: add rearrangement of questions
 
-
 const Question = ({
   type,
   title,
@@ -17,6 +16,7 @@ const Question = ({
   handleNewOption,
   handleDeleteOption,
   handleDeleteQuestion,
+  handleHotKey,
 }) => {
   const handleChange = ({ target: { value, name } }) => {
     handleMainChange(ind, { [name]: value });
@@ -47,7 +47,9 @@ const Question = ({
           >
             <option value="ans">Long/Short Answer</option>
             <option value="adash">Long/Short Answer Dashed</option>
-            <option value="mcq/fitb">MCQ/Fill in the blanks</option>
+            <option value="mcq/fitb/mqna/mtf">
+              MCQ/Fill in the blanks/Multiple QNA/Match the following
+            </option>
           </select>
           <input
             type="number"
@@ -58,7 +60,7 @@ const Question = ({
           />
         </div>
       </div>
-      {type === "mcq/fitb" && (
+      {type === "mcq/fitb/mqna/mtf" && (
         <ul className="mcq-questions">
           {options.map((option, index) => (
             <li key={index} className="mcq-choice">
@@ -67,6 +69,9 @@ const Question = ({
                 ind={index}
                 handleOptionChange={(oid, newValue) => {
                   handleOptionChange(ind, oid, newValue);
+                }}
+                handleHotKey={(oid, hotKey) => {
+                  handleHotKey(ind, oid, hotKey);
                 }}
               />
               <button
