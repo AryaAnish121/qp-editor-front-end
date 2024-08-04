@@ -12,7 +12,6 @@ const MCQOption = ({ value, ind, handleOptionChange, handleHotKey }) => {
   };
 
   const handleChange = ({ target: { value: newValue } }) => {
-    console.log(newValue);
     handleOptionChange(ind, newValue);
   };
 

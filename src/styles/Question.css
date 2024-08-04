@@ -27,8 +27,16 @@
   border-radius: 4px 4px 0 0;
 }
 
+.question:hover .re-arrange-options {
+  opacity: 1;
+}
+
+.re-arrange-options {
+  opacity: 0;
+}
+
 .question-options {
-  width: 315px;
+  width: 400px;
   display: flex;
   align-items: center;
   justify-content: space-between;

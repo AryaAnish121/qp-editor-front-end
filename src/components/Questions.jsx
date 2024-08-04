@@ -11,27 +11,77 @@ const Questions = () => {
     subject: "",
   });
 
-  const [questions, setQuestions] = useState([
-    { type: "ans", title: "प्रकृति पर एक निबंध लिखें", marks: 10, options: [] },
-    {
-      type: "adash",
-      title:
-        "जलवायु परिवर्तन के बारे में लिखें और बताएं कि आप उनसे कैसे निपट सकते हैं?",
-      marks: 10,
-      options: [],
-    },
-    {
-      type: "mcq/fitb/mqna/mtf",
-      title: "why is hamaguchi considered a living god?",
-      marks: 10,
-      options: [
-        "It is a living god.",
-        "he was kind",
-        "he was low key hot.",
-        "he was loving.",
-      ],
-    },
-  ]);
+  // const [questions, setQuestions] = useState([
+  //   {
+  //     type: "ans",
+  //     title: "प्रकृति पर एक निबंध लिखें",
+  //     marks: 10,
+  //     options: [],
+  //     pos: 0,
+  //   },
+  //   {
+  //     type: "adash",
+  //     title:
+  //       "जलवायु परिवर्तन के बारे में लिखें और बताएं कि आप उनसे कैसे निपट सकते हैं?",
+  //     marks: 10,
+  //     options: [],
+  //     pos: 1,
+  //   },
+  //   {
+  //     type: "mcq/fitb/mqna/mtf",
+  //     title: "why is hamaguchi considered a living god?",
+  //     marks: 10,
+  //     options: [
+  //       "It is a living god.",
+  //       "he was kind",
+  //       "he was low key hot.",
+  //       "he was loving.",
+  //     ],
+  //     pos: 2,
+  //   },
+  // ]);
+
+  const [questions, setQuestions] = useState([]);
+
+  const handleUp = (qid) => {
+    if (questions[qid].pos === 0) return;
+    setQuestions((prev) => {
+      return prev.map((question, index) => {
+        if (index === qid) {
+          return {
+            ...question,
+            pos: question.pos - 1,
+          };
+        } else if (question.pos === prev[qid].pos - 1) {
+          return {
+            ...question,
+            pos: question.pos + 1,
+          };
+        }
+        return question;
+      });
+    });
+  };
+
+  const handleDown = (qid) => {
+    if (questions[qid].pos === questions.length - 1) return;
+    setQuestions((prev) => {
+      return prev.map((question, index) => {
+        if (index === qid) {
+          return {
+            ...question,
+            pos: question.pos + 1,
+          };
+        } else if (question.pos === prev[qid].pos + 1) {
+          return {
+            ...question,
+            pos: question.pos - 1,
+          };
+        }
+        return question;
+      });
+    });
+  };
 
   const handleMainChange = (ind, newValue) => {
     setQuestions((prev) => {
@@ -46,13 +96,20 @@ const Questions = () => {
 
   const addQuestion = () => {
     setQuestions((prev) => {
+      let max = -1;
+
+      prev.forEach((question) => {
+        if (question.pos > max) max = question.pos;
+      });
+
       return [
         ...prev,
         {
-          type: "mcq/fitb/mqna/mtf",
-          title: "New Question",
-          marks: 10,
-          options: ["option a", "option b", "option c", "option d"],
+          type: "ans",
+          title: "",
+          marks: "",
+          options: [],
+          pos: max + 1,
         },
       ];
     });
@@ -186,19 +243,23 @@ const Questions = () => {
           />
         </div>
         <div className="questions">
-          {questions.map((question, index) => (
-            <Question
-              {...question}
-              key={index}
-              ind={index}
-              handleMainChange={handleMainChange}
-              handleOptionChange={handleOptionChange}
-              handleNewOption={handleNewOption}
-              handleDeleteOption={handleDeleteOption}
-              handleDeleteQuestion={handleDeleteQuestion}
-              handleHotKey={handleHotKey}
-            />
-          ))}
+          {questions
+            .sort((a, b) => (a.pos > b.pos ? 1 : -1))
+            .map((question, index) => (
+              <Question
+                {...question}
+                key={index}
+                ind={index}
+                handleMainChange={handleMainChange}
+                handleOptionChange={handleOptionChange}
+                handleNewOption={handleNewOption}
+                handleDeleteOption={handleDeleteOption}
+                handleDeleteQuestion={handleDeleteQuestion}
+                handleHotKey={handleHotKey}
+                handleDown={handleDown}
+                handleUp={handleUp}
+              />
+            ))}
         </div>
         <div className="add-question">
           <button className="question-option" onClick={addQuestion}>

@@ -1,9 +1,11 @@
 import "../styles/Question.css";
 import Option from "./Option";
 import Cross from "../icons/Cross";
+import { useState } from "react";
+import Down from "../icons/Down";
+import Up from "../icons/Up";
 
 // TODO: make the app mobile responsive
-// TODO: add rearrangement of questions
 
 const Question = ({
   type,
@@ -17,15 +19,28 @@ const Question = ({
   handleDeleteOption,
   handleDeleteQuestion,
   handleHotKey,
+  handleUp,
+  handleDown,
 }) => {
+  const [disabled, setDisabled] = useState(true);
+
   const handleChange = ({ target: { value, name } }) => {
     handleMainChange(ind, { [name]: value });
   };
 
+  const handleHoverChange = () => {
+    setDisabled((prev) => !prev);
+  };
+
   return (
-    <div className="question">
+    <div
+      className="question"
+      onMouseEnter={handleHoverChange}
+      onMouseLeave={handleHoverChange}
+    >
       <div className="head">
         <input
+          placeholder="Question Title"
           type="text"
           className="question-title"
           name="title"
@@ -33,6 +48,20 @@ const Question = ({
           onChange={handleChange}
         />
         <div className="question-options">
+          <button
+            disabled={disabled}
+            className="delete-button question-option re-arrange-options"
+            onClick={() => handleUp(ind)}
+          >
+            <Up />
+          </button>
+          <button
+            disabled={disabled}
+            className="delete-button question-option re-arrange-options"
+            onClick={() => handleDown(ind)}
+          >
+            <Down />
+          </button>
           <button
             className="delete-button question-option"
             onClick={() => handleDeleteQuestion(ind)}
@@ -42,7 +71,7 @@ const Question = ({
           <select
             name="type"
             className="question-option"
-            defaultValue={type}
+            value={type}
             onChange={handleChange}
           >
             <option value="ans">Long/Short Answer</option>
@@ -57,6 +86,7 @@ const Question = ({
             onChange={handleChange}
             value={marks}
             className="question-option"
+            placeholder="Marks"
           />
         </div>
       </div>
