@@ -147,7 +147,7 @@ const Questions = () => {
         },
         { responseType: "blob" }
       );
-      fileDownload(res.data, `${examDetails.subject}.docx`);
+      fileDownload(res.data, `${examDetails.studyingClass}-${examDetails.subject}-${examDetails.term}.docx`);
     } catch (error) {
       alert("FAILED: " + error.message);
     }
