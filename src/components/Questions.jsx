@@ -4,7 +4,6 @@ import "../styles/Questions.css";
 import fileDownload from "js-file-download";
 import axios from "axios";
 
-
 const Questions = () => {
   const [examDetails, setExamDetails] = useState({
     term: "",
@@ -171,6 +170,7 @@ const Questions = () => {
 
   const generateDocs = async () => {
     try {
+      alert("Generating...");
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER}/generate`,
         {
