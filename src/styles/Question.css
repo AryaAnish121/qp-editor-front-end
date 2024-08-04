@@ -28,7 +28,7 @@
 }
 
 .question-options {
-  width:  315px;
+  width: 315px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -78,6 +78,7 @@
   border-radius: 5px;
   border: 1.75px solid rgb(203, 203, 207);
   background: rgb(240, 240, 243);
+  outline: none;
 }
 
 .question-options button {

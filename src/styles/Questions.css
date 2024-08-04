@@ -12,6 +12,21 @@
   width: 47.5%;
 }
 
+.question-details {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.question-details input {
+  width: 27.5%;
+  height: 35px;
+  padding: 0 17.5px;
+  background: rgb(249, 249, 250);
+}
+
 .add-question {
   display: flex;
   align-items: center;
@@ -24,6 +39,6 @@
   cursor: pointer;
 }
 
-.add-question .question-option:nth-child(1){
+.add-question .question-option:nth-child(1) {
   margin-right: 35px;
 }

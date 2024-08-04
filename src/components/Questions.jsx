@@ -3,7 +3,12 @@ import Question from "./Question";
 import "../styles/Questions.css";
 
 const Questions = () => {
-  // don't delete idk why but it works
+  const [examDetails, setExamDetails] = useState({
+    term: "",
+    studyingClass: "",
+    subject: "",
+  });
+
   const [questions, setQuestions] = useState([
     { type: "ans", title: "प्रकृति पर एक निबंध लिखें", marks: 10, options: [] },
     {
@@ -104,9 +109,60 @@ const Questions = () => {
     });
   };
 
+  const handleExamDetailsChange = ({ target: { value, name } }) => {
+    setExamDetails((prev) => {
+      return { ...prev, [name]: value };
+    });
+  };
+
+  const generateDocs = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_SERVER}/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: questions,
+          ...examDetails,
+        }),
+      });
+      const res = await response.text();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="outer">
       <div className="main">
+        <div className="question-details">
+          <input
+            type="text"
+            placeholder="Term"
+            className="question-option"
+            onChange={handleExamDetailsChange}
+            value={examDetails.term}
+            name="term"
+          />
+          <input
+            type="text"
+            placeholder="Class"
+            className="question-option"
+            onChange={handleExamDetailsChange}
+            value={examDetails.studyingClass}
+            name="studyingClass"
+          />
+          <input
+            type="text"
+            placeholder="Subject"
+            className="question-option"
+            onChange={handleExamDetailsChange}
+            value={examDetails.subject}
+            name="subject"
+          />
+        </div>
         <div className="questions">
           {questions.map((question, index) => (
             <Question
@@ -125,7 +181,9 @@ const Questions = () => {
           <button className="question-option" onClick={addQuestion}>
             Add Question
           </button>
-          <button className="question-option">Generate Docs</button>
+          <button className="question-option" onClick={generateDocs}>
+            Generate Docs
+          </button>
         </div>
       </div>
     </div>

@@ -2,8 +2,9 @@ import "../styles/Question.css";
 import Option from "./Option";
 import Cross from "../icons/Cross";
 
-// TODO: delte mcq quetsion button
-// TODO: delete question button
+// TODO: make the app mobile responsive
+// TODO: add rearrangement of questions
+
 
 const Question = ({
   type,
