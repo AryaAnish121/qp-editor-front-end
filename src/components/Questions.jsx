@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Question from "./Question";
 import "../styles/Questions.css";
 import fileDownload from "js-file-download";
 import axios from "axios";
+
 
 const Questions = () => {
   const [examDetails, setExamDetails] = useState({
@@ -11,37 +12,11 @@ const Questions = () => {
     subject: "",
   });
 
-  // const [questions, setQuestions] = useState([
-  //   {
-  //     type: "ans",
-  //     title: "प्रकृति पर एक निबंध लिखें",
-  //     marks: 10,
-  //     options: [],
-  //     pos: 0,
-  //   },
-  //   {
-  //     type: "adash",
-  //     title:
-  //       "जलवायु परिवर्तन के बारे में लिखें और बताएं कि आप उनसे कैसे निपट सकते हैं?",
-  //     marks: 10,
-  //     options: [],
-  //     pos: 1,
-  //   },
-  //   {
-  //     type: "mcq/fitb/mqna/mtf",
-  //     title: "why is hamaguchi considered a living god?",
-  //     marks: 10,
-  //     options: [
-  //       "It is a living god.",
-  //       "he was kind",
-  //       "he was low key hot.",
-  //       "he was loving.",
-  //     ],
-  //     pos: 2,
-  //   },
-  // ]);
-
   const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    load();
+  }, []);
 
   const handleUp = (qid) => {
     if (questions[qid].pos === 0) return;
@@ -213,6 +188,39 @@ const Questions = () => {
     }
   };
 
+  const save = () => {
+    localStorage.setItem("questions", JSON.stringify(questions));
+    localStorage.setItem("examDetails", JSON.stringify(examDetails));
+    alert("Saved");
+  };
+
+  const load = () => {
+    const qstorage = localStorage.getItem("questions");
+    const esstorage = localStorage.getItem("examDetails");
+    if (qstorage) setQuestions(JSON.parse(qstorage));
+
+    if (esstorage) setExamDetails(JSON.parse(esstorage));
+  };
+
+  const clear = () => {
+    if (window.confirm("Are you sure?") === false) return;
+    localStorage.clear();
+    setQuestions([]);
+    setExamDetails({
+      term: "",
+      studyingClass: "",
+      subject: "",
+    });
+    alert("Cleared");
+  };
+
+  const exportData = () => {
+    fileDownload(
+      JSON.stringify({ questions, examDetails }, null, 4),
+      "data.json"
+    );
+  };
+
   return (
     <div className="outer">
       <div className="main">
@@ -262,10 +270,22 @@ const Questions = () => {
             ))}
         </div>
         <div className="add-question">
-          <button className="question-option" onClick={addQuestion}>
+          <button className="question-option alt-bg" onClick={load}>
+            Load Last Save
+          </button>
+          <button className="question-option alt-bg" onClick={save}>
+            Save Paper
+          </button>
+          <button className="question-option alt-bg" onClick={exportData}>
+            Export Data
+          </button>
+          <button className="question-option alt-bg" onClick={clear}>
+            Clear
+          </button>
+          <button className="question-option alt-bg" onClick={addQuestion}>
             Add Question
           </button>
-          <button className="question-option" onClick={generateDocs}>
+          <button className="question-option alt-bg" onClick={generateDocs}>
             Generate Docs
           </button>
         </div>

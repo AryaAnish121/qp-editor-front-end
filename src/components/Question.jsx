@@ -5,8 +5,6 @@ import { useState } from "react";
 import Down from "../icons/Down";
 import Up from "../icons/Up";
 
-// TODO: make the app mobile responsive
-
 const Question = ({
   type,
   title,
